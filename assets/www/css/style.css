@@ -1,0 +1,125 @@
+.container{
+	width: 320px;
+	height: 456px;
+	/* max-width: 720px; */
+	overflow: hidden;
+	margin: 0 auto;
+	position: relative;
+	background-image: url('../img/frame.png');
+	background-repeat: no-repeat;
+	background-attachment: initial;
+	background-position: initial;
+	background-clip: border-box;
+	background-size: contain;
+}
+#timer{
+	background-image: url('../img/buttons.png');
+	float: left;
+	background-repeat: no-repeat;
+	/* padding-left: 90px; */
+	width: 320px;
+	height: 37px;
+	background-size: contain;
+}
+.our_blue, .their_blue{
+	background-image: url("../img/GolemSquare.png");
+}
+.our_red, .their_red{
+	background-image: url("../img/LizardSquare.png");
+}
+.drake, .drake_on{
+	background-image: url("../img/DragonSquare.png");
+}
+.baron, .baron_on{
+	background-image: url("../img/Baron_Nashor.png");
+}
+.our_blue, .our_red, .drake, .drake_on, .baron, .baron_on, .their_blue, .their_red{
+	height: 128px;
+	border: 1px solid #D1D1D1;
+	border-radius: 4px;
+	background-color: #EEE;
+	float: left;
+	width: 128px;
+	margin: 4px;
+	overflow: hidden;
+}
+.our_blue, .our_red{
+	background-color: #CADEE4;
+}
+.their_blue, .their_red{
+	background-color: #AC85AC;
+}
+.mascara{
+	overflow: hidden;
+	padding: 4px;
+	background-color: rgba(91, 199, 87, 0.68);
+	background-image: url("../img/mask.png");
+	background-size: contain;
+	width: 121px;
+	height: 129px;
+	margin-top: 128px;
+	transition: all .2s ease-in-out;
+	-moz-transition: all .2s ease-in-out;
+	-webkit-transition: all .2s ease-in-out;
+	-o-transition: all .2s ease-in-out;
+}
+.mascara p{
+	position: absolute;
+	color: #FFF;
+	width: 60px;
+	font-family: 'Orbitron', sans-serif !important;
+	margin-top: 41px;
+	margin-left: 26px;
+	font-family: sans-serif;
+	padding: 6px 4px 2px;
+	text-align: center;
+	vertical-align: middle;
+	background-color: rgba(0, 0, 0, 0.44);
+	font-weight: bold;
+	font-size: 18px;
+}
+.top{
+	margin-top: 0px;
+	transition: all .2s ease-in-out;
+	-moz-transition: all .2s ease-in-out;
+	-webkit-transition: all .2s ease-in-out;
+	-o-transition: all .2s ease-in-out;
+}
+.boton{
+	border-radius: 10px;
+	background-color: rgba(255, 255, 255, 0);
+	color: #2DF7FF;
+	padding: 6px;
+	text-align: center;
+	border: 0px;
+	/* float: left; */
+	width: 49%;
+	/* margin-bottom: 9px; */
+}
+.our_jungle{
+	background-color: rgba(26, 55, 107, 0.91);
+	float: left;
+	margin-left: 15px;
+	padding-left: 5px;
+	width: 281px;
+	margin-top: 10px;
+}
+.their_jungle{
+	background-color: #920101;
+	float: left;
+	margin-left: 15px;
+	padding-left: 5px;
+	width: 281px;
+}
+.neutral_jungle{
+	margin-left: 20px;
+}
+.abs{
+	position: absolute !important;
+}
+body{
+	background-image: url('../img/frame-textures-sprite.jpg');
+	background-repeat: no-repeat;
+background-size: cover;
+margin: 0;
+}

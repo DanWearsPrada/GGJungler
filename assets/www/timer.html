@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+		<meta name="viewport" content="width=device-width, initial-scale=1"> 
+		<title>GGJungler</title>
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<meta name="author" content="@dan_vazq" />
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<link href='http://fonts.googleapis.com/css?family=Orbitron:700' rel='stylesheet' type='text/css'>
+		<script src="js/modernizr.custom.js"></script>
+		<script src="js/jquery-1.11.0.min.js"></script>
+		<script src="js/phonegap-1.4.1.js"></script>
+		<script src="js/cordova-1.8.0.js"></script>
+		<script src="js/jquery.knob.js"></script>
+		
+	</head>
+
+	<body>
+		<div class="container">
+			<div class="our_jungle">
+				<div class="our_blue">
+					<div class="mascara"></div>
+					<input class="knob second_our_blue" data-min="0" data-max="300" data-skin="" data-bgColor="transparent" data-fgColor="#27F6FF" data-displayInput=false data-width="120" data-height="120" data-thickness=".2" data-readOnly=true>
+				</div>
+				<div class="our_red">
+					<div class="mascara"></div>
+					<input class="knob second_our_red" cursor="false" data-min="0" data-max="300" data-skin="" data-bgColor="transparent" data-fgColor="#FF2828" data-displayInput=false data-width="120" data-height="120" data-thickness=".2" data-readOnly=true>
+				</div>
+			</div>
+			<div class="neutral_jungle">
+				<div class="drake">
+					<div class="mascara"></div>
+					<input class="knob second_drake" data-min="0" data-max="150" data-skin="" data-bgColor="transparent" data-fgColor="#FA6E00" data-displayInput=false data-width="120" data-height="120" data-thickness=".2" data-readOnly=true>
+				</div>
+				<div class="drake_on">
+					<div class="mascara top"></div>
+					<input class="knob second_drake_on" data-min="0" data-max="360" data-skin="" data-bgColor="transparent" data-fgColor="#FA6E00" data-displayInput=false data-width="120" data-height="120" data-thickness=".2" data-readOnly=true>
+				</div>
+				<div class="baron">
+					<div class="mascara"></div>
+					<input class="knob second_baron" data-min="0" data-max="900" data-skin="" data-bgColor="transparent" data-fgColor="#E41BBC" data-displayInput=false data-width="120" data-height="120" data-thickness=".2" data-readOnly=true>
+				</div>
+				<div class="baron_on">
+					<div class="mascara top"></div>
+					<input class="knob second_baron_on" data-min="0" data-max="480" data-skin="" data-bgColor="transparent" data-fgColor="#E41BBC" data-displayInput=false data-width="120" data-height="120" data-thickness=".2" data-readOnly=true>
+				</div>
+			</div>
+			<div class="their_jungle">
+				<div class="their_blue">
+					<div class="mascara"></div>
+					<input class="knob second_their_blue" data-min="0" data-max="300" data-skin="" data-bgColor="transparent" data-fgColor="#27F6FF" data-displayInput=false data-width="120" data-height="120" data-thickness=".2" data-readOnly=true>
+				</div>
+				<div class="their_red">
+					<div class="mascara"></div>
+					<input class="knob second_their_red" data-min="0" data-max="300" data-skin="" data-bgColor="transparent" data-fgColor="#FF2828" data-displayInput=false data-width="120" data-height="120" data-thickness=".2" data-readOnly=true>
+				</div>
+			</div>
+
+
+			<div id="timer">
+				<button class="boton empezar">START</button>
+				<button class="boton reset">RESET</button>
+			</div>
+
+			
+		</div><!-- container -->
+	</body>
+
+<script type="text/javascript" charset="utf-8">
+ 
+ 
+        // Audio player
+        //
+        function reproducirAudio(origen) {
+ 
+			//reproductor basico
+		    var mi_audio = new Media(origen, todoSalioBien, hayErrores);
+ 
+            	mi_audio.play();
+ 
+        }
+ 
+        function todoSalioBien(){
+        	console.log("el audio esta listo!!!")
+        }
+        function hayErrores(e){
+        	console.log("error!!!")
+        }
+ 
+</script>
+
+
+
+
+<script>
+
+//******************************************************************//
+// ******************************* NUESTRO AZUL ********************//
+//******************************************************************//
+$( ".our_blue" ).click(function() {
+	//se añade la mascara con el circulo y la clase top hace que haga transicion hasta arriba
+	$(".our_blue .mascara").css("background-color","rgba(202, 222, 228, 0.5)");
+	$(".our_blue .mascara").css("background-image","../img/mask.png");
+	$(".our_blue .mascara").addClass("top");
+	//valida que no hagas click si el tiempo ya esta corriendo
+	if(corriendo_our_blue == false){
+
+		//la inversa solo sirve para que el timer circular en jQuery cuente hacia atras
+		/*inversa*/
+		var count_inv_our_blue = 0; //300s = 5 min
+
+        var counter_inv_our_blue=setInterval(timer_inv_our_blue, 1000); //1000 will  run it every 1 second
+        function timer_inv_our_blue(){
+
+
+            count_inv_our_blue = count_inv_our_blue + 1;
+            $(".second_our_blue").val(count_inv_our_blue).trigger("change");
+            if (count_inv_our_blue >= 300)
+              {
+                 clearInterval(counter_inv_our_blue);
+                 return;
+              }
+        }
+        /* fin inversa */
+
+        //tiempo de respawn
+		var count_our_blue=300; //300s = 5 min
+
+		//se ejecuta la funcion cada segundo
+		var counter_our_blue=setInterval(timer_our_blue, 1000); //1000 sn milisegundos
+
+		function timer_our_blue()
+		{
+		  //se establece que el tiempo empieza a correr
+		  corriendo_our_blue = true;
+		  //restamos un segundo
+		  count_our_blue = count_our_blue-1;
+		  //si el tiempo llega a 0segundos
+		  if (count_our_blue <= 0)
+		  {
+		     clearInterval(counter_our_blue);
+		     //el tiempo deja de estar corriendo, por tanto se puede volver a hacer click
+		     corriendo_our_blue = false;
+		     //cambiamos los segundos por "On", se quita la mascara y se reinicia el timer jQuery
+		     //importante hacer primero el trigger y luego meter el <p>
+		     $(".second_our_blue").val(0).trigger("change");
+		     $(".our_blue .mascara").html(" ");
+		     $(".our_blue .mascara").html("<p>On</p>");
+		     $(".our_blue .mascara").css("background-color","transparent");
+		     $(".our_blue .mascara").css("background-image","none");
+		     reproducirAudio('http://wearecampfires.com/ggjungler/our_blue.wav');
+		 	 vibrate();
+
+		  }
+
+	//todo esto transforma los segundos a minutos y segundos
+	var count_our_blue_minutes = Math.floor( count_our_blue / 60 );
+
+	var count_our_blue_seconds = count_our_blue % 60;
+	 
+	//Anteponiendo un 0 a los minutos si son menos de 10 
+	count_our_blue_minutes = count_our_blue_minutes < 10 ? '0' + count_our_blue_minutes : count_our_blue_minutes;
+	 
+	//Anteponiendo un 0 a los segundos si son menos de 10 
+	count_our_blue_seconds = count_our_blue_seconds < 10 ? '0' + count_our_blue_seconds : count_our_blue_seconds;
+	 
+	var result = count_our_blue_minutes + ":" + count_our_blue_seconds;
+
+	$(".our_blue .mascara").html( "<p>" + result + "</p>");
+		}
+	}//endif
+
+  	
+});
+
+
+//******************************************************************//
+// ******************************* NUESTRO RED *********************//
+//******************************************************************//
+$( ".our_red" ).click(function() {
+
+$(".our_red .mascara").css("background-color","rgba(202, 222, 228, 0.5)");
+$(".our_red .mascara").css("background-image","../img/mask.png");
+$(".our_red .mascara").addClass("top");
+
+
+if(corriendo_our_red == false){
+
+	/*inversa*/
+		var count_inv_our_red = 0; //300s = 5 min
+
+        var counter_inv_our_red=setInterval(timer_inv_our_red, 1000); //1000 will  run it every 1 second
+        function timer_inv_our_red(){
+
+
+            count_inv_our_red = count_inv_our_red + 1;
+            $(".second_our_red").val(count_inv_our_red).trigger("change");
+            if (count_inv_our_red >= 300)
+              {
+                 clearInterval(counter_inv_our_red);
+                 return;
+              }
+        }
+    /* fin inversa */
+
+
+	var count_our_red=300; //300s = 5 min
+
+	var counter_our_red=setInterval(timer_our_red, 1000); //1000 will  run it every 1 second
+
+	function timer_our_red()
+	{
+	  corriendo_our_red = true;
+	  count_our_red=count_our_red-1;
+	  if (count_our_red <= 0)
+	  {
+	     clearInterval(counter_our_red);
+	     corriendo_our_red = false;
+	     $(".second_our_red").val(0).trigger("change");
+	     $(".our_red .mascara").html("<p>On</p>");
+		 $(".our_red .mascara").css("background-color","transparent");
+		 $(".our_red .mascara").css("background-image","none");
+		 reproducirAudio('http://wearecampfires.com/ggjungler/our_red.wav');
+		 vibrate();
+		 
+	  }
+
+	var count_our_red_minutes = Math.floor( count_our_red / 60 );
+
+	var count_our_red_seconds = count_our_red % 60;
+	 
+	//Anteponiendo un 0 a los minutos si son menos de 10 
+	count_our_red_minutes = count_our_red_minutes < 10 ? '0' + count_our_red_minutes : count_our_red_minutes;
+	 
+	//Anteponiendo un 0 a los segundos si son menos de 10 
+	count_our_red_seconds = count_our_red_seconds < 10 ? '0' + count_our_red_seconds : count_our_red_seconds;
+	 
+	var result = count_our_red_minutes + ":" + count_our_red_seconds;  // 161:30
+
+	$(".our_red .mascara").html( "<p>" + result + "</p>");
+	}
+}//endif
+
+
+
+});
+
+
+
+//******************************************************************//
+// ******************************* SU BLUE *************************//
+//******************************************************************//
+$( ".their_blue" ).click(function() {
+
+$(".their_blue .mascara").css("background-color","rgba(202, 222, 228, 0.5)");
+$(".their_blue .mascara").css("background-image","../img/mask.png");
+$(".their_blue .mascara").addClass("top"); 
+
+if(corriendo_their_blue == false){
+
+	/*inversa*/
+		var count_inv_their_blue = 0; //300s = 5 min
+
+        var counter_inv_their_blue=setInterval(timer_inv_their_blue, 1000); //1000 will  run it every 1 second
+        function timer_inv_their_blue(){
+
+
+            count_inv_their_blue = count_inv_their_blue + 1;
+            $(".second_their_blue").val(count_inv_their_blue).trigger("change");
+            if (count_inv_their_blue >= 300)
+              {
+                 clearInterval(counter_inv_their_blue);
+                 return;
+              }
+        }
+    /* fin inversa */
+
+
+	var count_their_blue=300; //300s = 5 min
+
+	var counter_their_blue=setInterval(timer_their_blue, 1000); //1000 will  run it every 1 second
+
+	function timer_their_blue()
+	{
+	  corriendo_their_blue = true;
+	  count_their_blue=count_their_blue-1;
+	  if (count_their_blue <= 0)
+	  {
+	     clearInterval(counter_their_blue);
+	     corriendo_their_blue = false;
+	     $(".second_their_blue").val(0).trigger("change");
+	     $(".their_blue .mascara").html("<p>On</p>");
+		 $(".their_blue .mascara").css("background-color","transparent");
+		 $(".their_blue .mascara").css("background-image","none");
+		 reproducirAudio('http://wearecampfires.com/ggjungler/their_blue.wav');
+		 vibrate();
+	  }
+
+	var count_their_blue_minutes = Math.floor( count_their_blue / 60 );
+
+	var count_their_blue_seconds = count_their_blue % 60;
+	 
+	//Anteponiendo un 0 a los minutos si son menos de 10 
+	count_their_blue_minutes = count_their_blue_minutes < 10 ? '0' + count_their_blue_minutes : count_their_blue_minutes;
+	 
+	//Anteponiendo un 0 a los segundos si son menos de 10 
+	count_their_blue_seconds = count_their_blue_seconds < 10 ? '0' + count_their_blue_seconds : count_their_blue_seconds;
+	 
+	var result = count_their_blue_minutes + ":" + count_their_blue_seconds;  // 161:30
+
+	$(".their_blue .mascara").html( "<p>" + result + "</p>");
+	}
+}//endif
+
+
+
+});
+
+
+
+
+//******************************************************************//
+// ******************************* SU RED **************************//
+//******************************************************************//
+$( ".their_red" ).click(function() {
+
+$(".their_red .mascara").css("background-color","rgba(202, 222, 228, 0.5)");
+$(".their_red .mascara").css("background-image","../img/mask.png");
+$(".their_red .mascara").addClass("top"); 
+
+if (corriendo_their_red == false){
+
+	/*inversa*/
+		var count_inv_their_red = 0; //300s = 5 min
+
+        var counter_inv_their_red=setInterval(timer_inv_their_red, 1000); //1000 will  run it every 1 second
+        function timer_inv_their_red(){
+
+
+            count_inv_their_red = count_inv_their_red + 1;
+            $(".second_their_red").val(count_inv_their_red).trigger("change");
+            if (count_inv_their_red >= 300)
+              {
+                 clearInterval(counter_inv_their_red);
+                 return;
+              }
+        }
+    /* fin inversa */
+
+
+	var count_their_red = 300; //300s = 5 min
+
+	var counter_their_red=setInterval(timer_their_red, 1000); //1000 will  run it every 1 second
+
+	function timer_their_red()
+	{
+	  corriendo_their_red = true;
+	  count_their_red=count_their_red-1;
+	  if (count_their_red <= 0)
+	  {
+	     clearInterval(counter_their_red);
+	     corriendo_their_red = false;
+	     $(".second_their_red").val(0).trigger("change");
+	     $(".their_red .mascara").html("<p>On</p>");
+		 $(".their_red .mascara").css("background-color","transparent");
+		 $(".their_red .mascara").css("background-image","none");
+		 reproducirAudio('http://wearecampfires.com/ggjungler/their_red.wav');
+		 vibrate();
+	  }
+
+	var count_their_red_minutes = Math.floor( count_their_red / 60 );
+	var count_their_red_seconds = count_their_red % 60;
+	 
+	//Anteponiendo un 0 a los minutos si son menos de 10 
+	count_their_red_minutes = count_their_red_minutes < 10 ? '0' + count_their_red_minutes : count_their_red_minutes;
+	 
+	//Anteponiendo un 0 a los segundos si son menos de 10 
+	count_their_red_seconds = count_their_red_seconds < 10 ? '0' + count_their_red_seconds : count_their_red_seconds;
+
+	/* la sentencia anterior resume el siguiente fragmento de codigo comentado
+	el valor de la variable antes del "=" cambiara dependiendo de la condicion "< 10"
+	si es cierto se ejecuta lo que viene despues de "?" 
+	si es falso se ejecuta lo que viene despues de ":"
+	*/
+	/*
+	if(count_their_red_seconds < 10){
+		count_their_red_seconds = '0' + count_their_red_seconds;
+	}
+	else{
+		count_their_red_seconds = count_their_red_seconds;
+	}
+	*/
+	 
+	var result = count_their_red_minutes + ":" + count_their_red_seconds;  // 161:30
+
+	$(".their_red .mascara").html( "<p>" + result + "</p>"); 
+	}
+}//if
+
+});
+
+
+
+//******************************************************************//
+// ******************************* DRAGON **************************//
+//******************************************************************//
+$( ".drake_on" ).click(function() {
+
+$(".drake_on .mascara").css("background-color","rgba(202, 222, 228, 0.5)");
+$(".drake_on .mascara").css("background-image","../img/mask.png");
+$(".drake_on .mascara").addClass("top"); 
+
+if ( corriendo_drake_on == false){
+
+	/*inversa*/
+		var count_inv_drake_on = 0; //360s = 6 min
+
+        var counter_inv_drake_on=setInterval(timer_inv_drake_on, 1000); //1000 will  run it every 1 second
+        function timer_inv_drake_on(){
+
+
+            count_inv_drake_on = count_inv_drake_on + 1;
+            $(".second_drake_on").val(count_inv_drake_on).trigger("change");
+            if (count_inv_drake_on >= 360)
+              {
+                 clearInterval(counter_inv_drake_on);
+                 return;
+              }
+        }
+    /* fin inversa */
+
+
+	var count_drake_on=360; //360s = 6 min
+
+	var counter_drake_on=setInterval(timer_drake_on, 1000); //1000 will  run it every 1 second
+
+	function timer_drake_on()
+	{
+	  corriendo_drake_on = true;
+	  count_drake_on=count_drake_on-1;
+	  if (count_drake_on <= 0)
+	  {
+	     clearInterval(counter_drake_on);
+	     corriendo_drake_on = false;
+	     $(".second_drake_on").val(0).trigger("change");
+	     $(".drake_on .mascara").html("<p>On</p>");
+	     $(".drake_on .mascara").css("background-color","transparent");
+	     $(".drake_on .mascara").css("background-image","none");
+	     reproducirAudio('http://wearecampfires.com/ggjungler/dragon.wav');
+		 vibrate();
+	  }
+
+	var count_drake_on_minutes = Math.floor( count_drake_on / 60 );
+
+	var count_drake_on_seconds = count_drake_on % 60;
+	 
+	//Anteponiendo un 0 a los minutos si son menos de 10 
+	count_drake_on_minutes = count_drake_on_minutes < 10 ? '0' + count_drake_on_minutes : count_drake_on_minutes;
+	 
+	//Anteponiendo un 0 a los segundos si son menos de 10 
+	count_drake_on_seconds = count_drake_on_seconds < 10 ? '0' + count_drake_on_seconds : count_drake_on_seconds;
+	 
+	var result = count_drake_on_minutes + ":" + count_drake_on_seconds;  // 161:30
+
+	$(".drake_on .mascara").html( "<p>" + result + "</p>");
+	}
+}
+});
+
+
+
+//******************************************************************//
+// ******************************* BARON  **************************//
+//******************************************************************//
+$( ".baron_on" ).click(function() {
+
+$(".baron_on .mascara").css("background-color","rgba(202, 222, 228, 0.5)");
+$(".baron_on .mascara").css("background-image","../img/mask.png");
+$(".baron_on .mascara").addClass("top"); 
+
+if ( corriendo_baron_on == false){
+
+	/*inversa*/
+		var count_inv_baron_on = 0; //480s = 7 min
+
+        var counter_inv_baron_on=setInterval(timer_inv_baron_on, 1000); //1000 will  run it every 1 second
+        function timer_inv_baron_on(){
+
+
+            count_inv_baron_on = count_inv_baron_on + 1;
+            $(".second_baron_on").val(count_inv_baron_on).trigger("change");
+            if (count_inv_baron_on >= 480)
+              {
+                 clearInterval(counter_inv_baron_on);
+                 return;
+              }
+        }
+    /* fin inversa */
+
+
+	var count_baron_on=480; //480s = 7 min
+
+	var counter_baron_on=setInterval(timer_baron_on, 1000); //1000 will  run it every 1 second
+
+	function timer_baron_on()
+	{
+	  corriendo_baron_on = true;
+	  count_baron_on=count_baron_on-1;
+	  if (count_baron_on <= 0)
+	  {
+	     clearInterval(counter_baron_on);
+	     corriendo_baron_on = false;
+	     $(".second_baron_on").val(0).trigger("change");
+	     $(".baron_on .mascara").html("<p>On</p>");
+	     $(".baron_on .mascara").css("background-color","transparent");
+	     $(".baron_on .mascara").css("background-image","none");
+	     reproducirAudio('http://wearecampfires.com/ggjungler/baron.wav');
+		 vibrate();
+	  }
+
+	var count_baron_on_minutes = Math.floor( count_baron_on / 60 );
+
+	var count_baron_on_seconds = count_baron_on % 60;
+	 
+	//Anteponiendo un 0 a los minutos si son menos de 10 
+	count_baron_on_minutes = count_baron_on_minutes < 10 ? '0' + count_baron_on_minutes : count_baron_on_minutes;
+	 
+	//Anteponiendo un 0 a los segundos si son menos de 10 
+	count_baron_on_seconds = count_baron_on_seconds < 10 ? '0' + count_baron_on_seconds : count_baron_on_seconds;
+	 
+	var result = count_baron_on_minutes + ":" + count_baron_on_seconds;  // 161:30
+
+	$(".baron_on .mascara").html( "<p>" + result + "</p>");
+	}
+}
+
+});
+
+
+function enable_drake(){
+
+	
+	$(".drake .mascara").css("background-color","rgba(202, 222, 228, 0.5)");
+	$(".drake .mascara").css("background-image","../img/mask.png");
+	$(".drake .mascara").addClass("top"); 
+
+
+	/*inversa*/
+		var count_inv_drake = 0; //150s = 2.5 min
+
+        var counter_inv_drake=setInterval(timer_inv_drake, 1000); //1000 will  run it every 1 second
+        function timer_inv_drake(){
+
+
+            count_inv_drake = count_inv_drake + 1;
+            $(".second_drake").val(count_inv_drake).trigger("change");
+            if (count_inv_drake >= 150)
+              {
+                 clearInterval(counter_inv_drake);
+                 return;
+              }
+        }
+    /* fin inversa */
+
+
+	var count_drake=150; //150s = 2.5 min
+
+	var counter_drake=setInterval(timer_drake, 1000); //1000 will  run it every 1 second
+
+	function timer_drake()
+	{
+	  count_drake=count_drake-1;
+	  if (count_drake <= 0)
+	  {
+	     clearInterval(counter_drake);
+	     $(".drake").hide();
+		 $(".drake_on").show();
+	     $(".second_drake_on").val(0).trigger("change");
+	     $(".drake_on .mascara").html(" "); //drake on
+	     $(".drake_on .mascara").html("<p>On</p>"); //drake on
+	     //$("#player")[0].play();
+	     $(".drake_on .mascara").css("background-color","transparent");
+	     $(".drake_on .mascara").css("background-image","none");
+	     
+
+	     reproducirAudio('http://wearecampfires.com/ggjungler/dragon.wav');
+		 vibrate();
+		 // Esperar a que Cordova esté listo
+        //document.addEventListener("deviceready", onDeviceReady, false);
+
+        // Función que activa la vibración durante 2 segundos
+        //function vibrar() {
+            // Ver documentación en:
+            // http://docs.phonegap.com/en/2.1.0/cordova_notification_notification.md.html#notification.vibrate
+        //    navigator.notification.vibrate(2000);
+        //}
+
+	    // return;
+	  }
+	
+
+	var count_drake_minutes = Math.floor( count_drake / 60 );
+
+	var count_drake_seconds = count_drake % 60;
+	 
+	//Anteponiendo un 0 a los minutos si son menos de 10 
+	count_drake_minutes = count_drake_minutes < 10 ? '0' + count_drake_minutes : count_drake_minutes;
+	 
+	//Anteponiendo un 0 a los segundos si son menos de 10 
+	count_drake_seconds = count_drake_seconds < 10 ? '0' + count_drake_seconds : count_drake_seconds;
+	 
+	var result = count_drake_minutes + ":" + count_drake_seconds;  // 161:30
+
+	$(".drake .mascara").html( "<p>" + result + "</p>"); 
+	};
+
+};
+
+
+function enable_baron(){
+
+
+	$(".baron .mascara").css("background-color","rgba(202, 222, 228, 0.5)");
+	$(".baron .mascara").css("background-image","../img/mask.png");
+	$(".baron .mascara").addClass("top"); 
+
+
+	/*inversa*/
+		var count_inv_baron = 0; //900s = 15 min
+
+        var counter_inv_baron=setInterval(timer_inv_baron, 1000); //1000 will  run it every 1 second
+        function timer_inv_baron(){
+
+
+            count_inv_baron = count_inv_baron + 1;
+            $(".second_baron").val(count_inv_baron).trigger("change");
+            if (count_inv_baron >= 900)
+              {
+                 clearInterval(counter_inv_baron);
+                 return;
+              }
+        }
+    /* fin inversa */
+
+
+
+	var count_baron = 900; //900s = 15 min
+
+	var counter_baron=setInterval(timer_baron, 1000); //1000 will  run it every 1 second
+
+	function timer_baron()
+	{
+	  corriendo_baron = true;
+	  count_baron=count_baron-1;
+	  if (count_baron <= 0)
+	  {
+	     clearInterval(counter_baron);
+	     $(".baron").hide();
+		 $(".baron_on").show();
+		 $(".second_baron_on").val(0).trigger("change");
+	     $(".baron_on .mascara").html("<p>On</p>");
+	     $(".baron_on .mascara").css("background-color","transparent");
+	     $(".baron_on .mascara").css("background-image","none");
+
+		 reproducirAudio('http://wearecampfires.com/ggjungler/baron.wav');
+		 vibrate();
+	  }
+
+
+	var count_baron_minutes = Math.floor( count_baron / 60 );
+
+	var count_baron_seconds = count_baron % 60;
+	 
+	//Anteponiendo un 0 a los minutos si son menos de 10 
+	count_baron_minutes = count_baron_minutes < 10 ? '0' + count_baron_minutes : count_baron_minutes;
+	 
+	//Anteponiendo un 0 a los segundos si son menos de 10 
+	count_baron_seconds = count_baron_seconds < 10 ? '0' + count_baron_seconds : count_baron_seconds;
+	 
+	var result = count_baron_minutes + ":" + count_baron_seconds;  // 161:30
+
+	$(".baron .mascara").html( "<p>" + result + "</p>"); 
+	};
+
+
+};
+
+
+$( ".reset" ).click(function reset(){
+	location.reload(true);
+});
+
+
+$( ".empezar" ).click(function() {
+	if(corriendo_baron == false){
+		enable_drake();
+		enable_baron();
+	}
+	
+});
+
+$(".baron_on").hide();
+$(".drake_on").hide();
+
+
+
+// Reproduce tres beeps
+    //
+    function playBeep() {
+        navigator.notification.beep(1);
+    }
+
+    // Vibra dos segundos
+    //
+    function vibrate() {
+        navigator.notification.vibrate(500);
+    }
+
+
+var corriendo_our_blue = false;
+var corriendo_our_red = false;
+var corriendo_their_blue = false;
+var corriendo_their_red = false;
+var corriendo_drake_on = false;
+var corriendo_baron_on = false;
+var corriendo_baron = false;
+
+</script>
+
+<script>
+    $(function($) {
+
+        $(".knob").knob({
+            change : function (value) {
+                //console.log("change : " + value);
+            },
+            release : function (value) {
+                //console.log(this.$.attr('value'));
+                //console.log("release : " + value);
+            },
+            cancel : function () {
+                console.log("cancel : ", this);
+            },
+            /*format : function (value) {
+                return value + '%';
+            },*/
+            draw : function () {
+
+                // "tron" case
+                if(this.$.data('skin') == 'tron') {
+
+                    this.cursorExt = 0.3;
+
+                    var a = this.arc(this.cv)  // Arc
+                        , pa                   // Previous arc
+                        , r = 1;
+
+                    this.g.lineWidth = this.lineWidth;
+
+                    if (this.o.displayPrevious) {
+                        pa = this.arc(this.v);
+                        this.g.beginPath();
+                        this.g.strokeStyle = this.pColor;
+                        this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, pa.s, pa.e, pa.d);
+                        this.g.stroke();
+                    }
+
+                    this.g.beginPath();
+                    this.g.strokeStyle = r ? this.o.fgColor : this.fgColor ;
+                    this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, a.s, a.e, a.d);
+                    this.g.stroke();
+
+                    this.g.lineWidth = 2;
+                    this.g.beginPath();
+                    this.g.strokeStyle = this.o.fgColor;
+                    this.g.arc( this.xy, this.xy, this.radius - this.lineWidth + 1 + this.lineWidth * 2 / 3, 0, 2 * Math.PI, false);
+                    this.g.stroke();
+
+                    return false;
+                }
+            }
+        });
+
+        // Example of infinite knob, iPod click wheel
+        var v, up=0,down=0,i=0
+            ,$idir = $("div.idir")
+            ,$ival = $("div.ival")
+            ,incr = function() { i++; $idir.show().html("+").fadeOut(); $ival.html(i); }
+            ,decr = function() { i--; $idir.show().html("-").fadeOut(); $ival.html(i); };
+        $("input.infinite").knob(
+                            {
+                            min : 0
+                            , max : 20
+                            , stopper : false
+                            , change : function () {
+                                            if(v > this.cv){
+                                                if(up){
+                                                    decr();
+                                                    up=0;
+                                                }else{up=1;down=0;}
+                                            } else {
+                                                if(v < this.cv){
+                                                    if(down){
+                                                        incr();
+                                                        down=0;
+                                                    }else{down=1;up=0;}
+                                                }
+                                            }
+                                            v = this.cv;
+                                        }
+                            });
+    });
+</script>
